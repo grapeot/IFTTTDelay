@@ -15,6 +15,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.set('view engine', 'jade');
 
 // This interface will trigger the given event if the given time/location is at "dusk"
 // Here "dusk" is defined as half an hour before the sunset
@@ -38,14 +39,26 @@ app.get('//dusk', function(req, res) {
     res.send('Request recorded. Sunset time = ' + sunsetTime + '. ' + (triggered ? 'Triggered. ' : 'Not triggered.'));
 });
 
-app.get('//delay', function(req, res) {
+app.use('//delay', function(req, res) {
     var delay = parseInt(req.query.t); // in minutes
     var key = req.query.key;
     var event = req.query.event;
+    
+    // Fetch the values from the POST body
+    var value1 = req.body.Value1;
+    var value2 = req.body.Value2;
+    var value3 = req.body.Value3;
+    var bodyToSend = {
+        value1: value1,
+        value2: value2,
+        value3: value3
+    };
+    console.log('body = ' + JSON.stringify(bodyToSend));
+    
     setTimeout(function() {
         var url = 'https://maker.ifttt.com/trigger/' + event + '/with/key/' + key;
         console.log('URL = ' + url);
-        request.post(url, function(error, response, body) {
+        request.post(url, { form: bodyToSend }, function(error, response, body) {
         });
     }, delay * 60 * 1000);
     res.send('Request recorded. Delay = ' + delay + ' minutes, event = ' + event + ', key = ' + key);
@@ -79,12 +92,12 @@ if (app.get('env') === 'development') {
 // production error handler
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
-  res.status(err.status || 500);
-  res.render('error', {
-    message: err.message,
-    error: {}
-  });
+    console.log(err.message);
+    res.status(err.status || 500);
+    res.render('error', {
+        message: err.message,
+        error: {}
+    });
 });
-
 
 module.exports = app;
