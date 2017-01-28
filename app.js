@@ -60,7 +60,15 @@ app.use('//consolidate', function(req, res) {
     if (consolidateData[dataKey] == undefined) {
         // first time. Record and fire it.
         var url = 'https://maker.ifttt.com/trigger/' + event + '/with/key/' + key;
-        request.post(url, { form: bodyToSend }, function(error, response, body) {} );
+        request.post(url, { form: bodyToSend }, function(error, response, body) {
+            if (error) {
+                console.log('Error: ' + error);
+            }
+            else {
+                console.log('Response from IFTTT: ' + body);
+            }
+
+        } );
         consolidateData[dataKey] = 0;
         setTimeout(function() { consolidateData[dataKey] = undefined; }, timeout); 
         res.status(200).json({ 'status': 'ok', 'msg': 'Request sent.' });
@@ -68,10 +76,6 @@ app.use('//consolidate', function(req, res) {
     else {
         res.status(200).json({ 'status': 'ok', 'msg': 'Request blocked.' });
     }
-});
-
-app.use('/', function(req, res) {
-    res.status(200).json({"status": "ok"});
 });
 
 app.use('//delay', function(req, res) {
@@ -100,7 +104,7 @@ app.use('//delay', function(req, res) {
 });
 
 app.use('/', function(req, res) {
-    res.status(200).json({"status": "ok"});
+    res.status(200).json({"status": "ok", "msg": "You've reached the API root. Service is running." });
 });
 
 // catch 404 and forward to error handler
