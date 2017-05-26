@@ -79,7 +79,7 @@ app.use('//consolidate', function(req, res) {
 });
 
 app.use('//delay', function(req, res) {
-    var delay = parseInt(req.query.t); // in minutes
+    var delay = parseFloat(req.query.t); // in minutes, now allowing float
     var key = req.query.key;
     var event = req.query.event;
     
@@ -88,9 +88,9 @@ app.use('//delay', function(req, res) {
     var value2 = req.body.Value2;
     var value3 = req.body.Value3;
     var bodyToSend = {
-        value1: value1,
-        value2: value2,
-        value3: value3
+        value1: encodeURIComponent(value1),
+        value2: encodeURIComponent(value2),
+        value3: encodeURIComponent(value3)
     };
     console.log('body = ' + JSON.stringify(bodyToSend));
     
