@@ -40,44 +40,6 @@ app.get('//dusk', function(req, res) {
     res.send('Request recorded. Sunset time = ' + sunsetTime + '. ' + (triggered ? 'Triggered. ' : 'Not triggered.'));
 });
 
-// consolidates multiple requests happened multiple times within 5 seconds.
-var consolidateData = {};
-app.use('//consolidate', function(req, res) {
-    var timeout = 5000; // ms
-    var key = req.query.key;
-    var event = req.query.event;
-    var dataKey = key + '_' + event;
-    
-    // Fetch the values from the POST body
-    var value1 = req.body.Value1;
-    var value2 = req.body.Value2;
-    var value3 = req.body.Value3;
-    var bodyToSend = {
-        value1: value1,
-        value2: value2,
-        value3: value3
-    };
-    console.log('body = ' + JSON.stringify(bodyToSend));
-    if (consolidateData[dataKey] == undefined) {
-        // first time. Record and fire it.
-        var url = 'https://maker.ifttt.com/trigger/' + event + '/with/key/' + key;
-        request.post(url, { form: bodyToSend }, function(error, response, body) {
-            if (error) {
-                console.log('Error: ' + error);
-            }
-            else {
-                console.log('Response from IFTTT: ' + body);
-            }
-
-        } );
-        consolidateData[dataKey] = 0;
-        setTimeout(function() { consolidateData[dataKey] = undefined; }, timeout); 
-        res.status(200).json({ 'status': 'ok', 'msg': 'Request sent.' });
-    }
-    else {
-        res.status(200).json({ 'status': 'ok', 'msg': 'Request blocked.' });
-    }
-});
 app.use('//delay', function(req, res) {
     // Parse the inputs
     var delay = parseFloat(req.query.t); // in minutes, now allowing float
