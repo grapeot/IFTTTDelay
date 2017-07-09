@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var request = require('request');
 var SunCalc = require('suncalc');
+var timerDict = require('./timerDictionary.js');
 
 var app = express();
 
@@ -77,11 +78,19 @@ app.use('//consolidate', function(req, res) {
         res.status(200).json({ 'status': 'ok', 'msg': 'Request blocked.' });
     }
 });
-
 app.use('//delay', function(req, res) {
+    // Parse the inputs
     var delay = parseFloat(req.query.t); // in minutes, now allowing float
     var key = req.query.key;
     var event = req.query.event;
+    var reset = req.query.reset == '1';
+    if (reset == undefined) {
+        reset = false;
+    }
+    if (delay == undefined || key == undefined || event == undefined) {
+        res.send("Error: must specify t (for delay time) and key and event in the URL.");
+        return;
+    }
     
     // Fetch the values from the POST body
     var value1 = req.body.Value1;
@@ -94,13 +103,19 @@ app.use('//delay', function(req, res) {
     };
     console.log('body = ' + JSON.stringify(bodyToSend));
     
-    setTimeout(function() {
+    var timerId = setTimeout(function() {
         var url = 'https://maker.ifttt.com/trigger/' + event + '/with/key/' + key;
         console.log('URL = ' + url);
-        request.post(url, { form: bodyToSend }, function(error, response, body) {
-        });
+        request.post(url, { form: bodyToSend }, function(error, response, body) { });
+        timerDict.removeTimer(key, event, timerId);
     }, delay * 60 * 1000);
-    res.send('Request recorded. Delay = ' + delay + ' minutes, event = ' + event + ', key = ' + key);
+    // If reset is specified, cancel all existing timers
+    if (reset) {
+        timerDict.removeAllTimers(key, event);
+    }
+    // Add the current timer to the timer dictionary
+    timerDict.addTimer(key, event, timerId);
+    res.send('Request recorded. Delay = ' + delay + ' minutes, event = ' + event + ', key = ' + key + ', reset = ' + reset);
 });
 
 app.use('/', function(req, res) {
