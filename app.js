@@ -40,6 +40,17 @@ app.get('//dusk', function(req, res) {
     res.send('Request recorded. Sunset time = ' + sunsetTime + '. ' + (triggered ? 'Triggered. ' : 'Not triggered.'));
 });
 
+app.use('//cancel', function(req, res) {
+    var key = req.query.key;
+    var event = req.query.event;
+    if (key == undefined || event == undefined) {
+        res.send("Error: must specify key and event in the URL.");
+        return;
+    }
+    timerDict.removeAllTimers(key, event);
+    res.send("All future times for { key = " + key + ", event = " + event + " } are removed. ");
+});
+
 app.use('//delay', function(req, res) {
     // Parse the inputs
     var delay = parseFloat(req.query.t); // in minutes, now allowing float
