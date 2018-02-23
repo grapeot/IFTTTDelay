@@ -21,7 +21,7 @@ app.set('view engine', 'jade');
 // This interface will trigger the given event if the given time/location is at "dusk"
 // Here "dusk" is defined as half an hour before the sunset
 // Example query: http://lab.grapeot.me/ifttt/dusk?key=MY_KEY&lat=51.5&lon=-0.1&event=lightson
-app.get('//dusk', function(req, res) {
+app.get('/dusk', function(req, res) {
     var key = req.query.key;
     var lat = parseFloat(req.query.lat);
     var lon = parseFloat(req.query.lon);
@@ -40,7 +40,7 @@ app.get('//dusk', function(req, res) {
     res.send('Request recorded. Sunset time = ' + sunsetTime + '. ' + (triggered ? 'Triggered. ' : 'Not triggered.'));
 });
 
-app.use('//cancel', function(req, res) {
+app.use('/cancel', function(req, res) {
     var key = req.query.key;
     var event = req.query.event;
     if (key == undefined || event == undefined) {
@@ -51,7 +51,7 @@ app.use('//cancel', function(req, res) {
     res.send("All future times for { key = " + key + ", event = " + event + " } are removed. ");
 });
 
-app.use('//delay', function(req, res) {
+app.use('/delay', function(req, res) {
     // Parse the inputs
     var delay = parseFloat(req.query.t); // in minutes, now allowing float
     var key = req.query.key;
@@ -70,9 +70,9 @@ app.use('//delay', function(req, res) {
     var value2 = req.body.Value2;
     var value3 = req.body.Value3;
     var bodyToSend = {
-        value1: encodeURIComponent(value1),
-        value2: encodeURIComponent(value2),
-        value3: encodeURIComponent(value3)
+        value1: value1,
+        value2: value2,
+        value3: value3
     };
     console.log('body = ' + JSON.stringify(bodyToSend));
     
