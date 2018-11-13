@@ -64,6 +64,15 @@ app.use('/delay', function(req, res) {
         res.send("Error: must specify t (for delay time) and key and event in the URL.");
         return;
     }
+    var maxSupportedDelay = Math.pow(2,31) - 1;
+    if ((delay * 60 * 1000) > maxSupportedDelay) {
+        // setTimeout() uses a 32-bit signed integer for its delay parameter
+        // A larger number causes setTimeout() to execute immediately, which
+        // is likely not what the user would want.
+        // Throw an explicit error if the passed delay time will exceed it.
+        res.send("Error: Delay time cannot exceed " + (maxSupportedDelay / 60 / 1000) + " minutes.");
+        return;
+    }
     
     // Fetch the values from the POST body
     var value1 = req.body.Value1;
