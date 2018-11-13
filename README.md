@@ -12,5 +12,5 @@ Enjoy! And let me know if you have questions.
 
 ## API
 
-* `delay?event={EVENT}&t={DELAY_IN_MINUTES}&key={IFTTT_KEY}&reset={0,1}`: trigger the IFTTT `event` with the given `key`, after `t` minutes. If `reset` is set to 1, all existing timers of the given key and event will be canceled, and a new timer will be created with the given parameters. That is, it "resets" the timer.
+* `delay?event={EVENT}&t={DELAY_IN_MINUTES}&key={IFTTT_KEY}&reset={0,1}`: trigger the IFTTT `event` with the given `key`, after `t` minutes, limited to 35791 minutes. Decimal values are supported. If `reset` is set to 1, all existing timers of the given key and event will be canceled, and a new timer will be created with the given parameters. That is, it "resets" the timer.
 * `cancel?event={EVENT}&key={IFTTT_KEY}`: cancel all the existing timers of the given `key` and `event`.
