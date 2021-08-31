@@ -1,6 +1,6 @@
-## Background
+**Update:** the tool is now featured by IFTTT offcially! Check out [the post](https://help.ifttt.com/hc/en-us/articles/360059005834-How-to-add-a-delay-to-an-IFTTT-action) in IFTTT Help Center for detailed instructions!
 
-(This is a blog post in [my blog](https://grapeot.me/adding-a-delay-to-ifttt-recipes.html). You can also see discussions on the page. To report bugs or request new features, you can either use github's issues (recommended) or go to the post and comment there.)
+## Background
 
 Ifttt is the de facto hub for smart home now. Nearly everything can be connected to it and personally I have ~20 connected devices (hue, WeMo, echo, lock, thermostat, ...) and tens of recipes. But one thing ifttt still cannot do is adding delay to the recipes. Say, I have a good night trigger which will dim the bedroom lights when Alexa hears I say good night to her. But using official ifttt channels, you cannot further turn off the lights after 15 minutes. There are some discussions [online](http://webapps.stackexchange.com/questions/33674/ifttt-can-you-specify-a-delay-for-an-action) but looks there are no easy solutions yet. 
 
@@ -14,3 +14,7 @@ Enjoy! And let me know if you have questions.
 
 * `delay?event={EVENT}&t={DELAY_IN_MINUTES}&key={IFTTT_KEY}&reset={0,1}`: trigger the IFTTT `event` with the given `key`, after `t` minutes, limited to 35791 minutes. Decimal values are supported. If `reset` is set to 1, all existing timers of the given key and event will be canceled, and a new timer will be created with the given parameters. That is, it "resets" the timer.
 * `cancel?event={EVENT}&key={IFTTT_KEY}`: cancel all the existing timers of the given `key` and `event`.
+
+## Donation
+
+This is a free service hosted on my personal server. If you like this tool and would like to help me offset the server cost, feel free to [donate through Paypal](https://www.paypal.com/donate?business=3SPXYULC2DV84&no_recurring=0&item_name=Show+your+support+for+IFTTT+Delay&currency_code=USD).
