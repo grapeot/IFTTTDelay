@@ -1,19 +1,29 @@
 {
   "name": "IFTTTDelay",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "dev": "tsx src/server.ts",
+    "build": "tsc -p tsconfig.json",
+    "start": "tsx src/server.ts",
+    "start:dist": "node dist/server.js",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
-    "body-parser": "~1.15.1",
-    "cookie-parser": "~1.4.3",
-    "debug": ">=2.6.9",
-    "express": "~4.13.4",
-    "jade": "~1.11.0",
-    "morgan": ">=1.9.1",
-    "serve-favicon": "~2.3.0",
-    "request": "*",
-    "suncalc": "*"
+    "@fastify/formbody": "^7.4.0",
+    "fastify": "^4.26.2",
+    "suncalc": "^1.9.0",
+    "undici": "^6.15.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.5",
+    "@types/suncalc": "^1.9.2",
+    "@types/supertest": "^6.0.3",
+    "supertest": "^6.3.4",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3",
+    "vitest": "^2.1.8"
   }
 }

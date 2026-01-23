@@ -18,3 +18,15 @@ Enjoy! And let me know if you have questions.
 ## Donation
 
 This is a free service hosted on my personal server. If you like this tool and would like to help me offset the server cost, feel free to [donate through Paypal](https://www.paypal.com/donate?business=3SPXYULC2DV84&no_recurring=0&item_name=Show+your+support+for+IFTTT+Delay&currency_code=USD).
+
+## Changes in 2026
+
+The API behavior is kept the same, but the implementation is upgraded to a modern stack:
+- Runtime/framework: TypeScript + Fastify
+- HTTP tests: vitest + supertest
+
+Commands:
+- `npm test`
+- `npm run test:watch`
+- `npm start` (defaults to `PORT=3002`, `HOST=0.0.0.0`)
+
