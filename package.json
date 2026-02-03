@@ -11,8 +11,8 @@
     "test:watch": "vitest"
   },
   "dependencies": {
-    "@fastify/formbody": "^7.4.0",
-    "fastify": "^4.26.2",
+    "@fastify/formbody": "^8.0.2",
+    "fastify": "^5.7.3",
     "suncalc": "^1.9.0",
     "undici": "^6.15.0"
   },
@@ -24,6 +24,6 @@
     "ts-node": "^10.9.2",
     "tsx": "^4.19.2",
     "typescript": "^5.7.3",
-    "vitest": "^2.1.8"
+    "vitest": "^4.0.18"
   }
 }
