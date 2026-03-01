@@ -20,6 +20,7 @@
     "@types/node": "^22.10.5",
     "@types/suncalc": "^1.9.2",
     "@types/supertest": "^6.0.3",
+    "rollup": ">=4.59.0",
     "supertest": "^6.3.4",
     "ts-node": "^10.9.2",
     "tsx": "^4.19.2",
