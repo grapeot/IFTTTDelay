@@ -19,26 +19,8 @@ function pickBodyValues(body: unknown): IftttFormBody {
   };
 }
 
-export function sanitizeRequestUrl(url: string): string {
-  return url.replace(/([?&]key=)[^&]*/gi, "$1[REDACTED]");
-}
-
 export async function buildApp(deps: AppDeps = {}): Promise<FastifyInstance> {
-  const app = Fastify({
-    logger: {
-      serializers: {
-        req(req) {
-          return {
-            method: req.method,
-            url: sanitizeRequestUrl(req.url),
-            host: req.hostname,
-            remoteAddress: req.ip,
-            remotePort: req.socket.remotePort,
-          };
-        },
-      },
-    },
-  });
+  const app = Fastify({ logger: true });
   await app.register(formbody);
 
   const timerStore = deps.timerStore ?? new TimerStore();
@@ -125,3 +107,4 @@ export async function buildApp(deps: AppDeps = {}): Promise<FastifyInstance> {
 
   return app;
 }
+
