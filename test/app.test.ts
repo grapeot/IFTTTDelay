@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import supertest from "supertest";
-import { buildApp } from "../src/app";
+import { buildApp, sanitizeRequestUrl } from "../src/app";
 import { TimerStore } from "../src/timerStore";
 
 describe("app routes", () => {
@@ -98,3 +98,10 @@ describe("app routes", () => {
   });
 });
 
+describe("request log sanitization", () => {
+  it("redacts webhook keys without removing other query parameters", () => {
+    expect(sanitizeRequestUrl("/delay?event=evt&key=secret&t=1")).toBe(
+      "/delay?event=evt&key=[REDACTED]&t=1",
+    );
+  });
+});
